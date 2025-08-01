@@ -84,7 +84,7 @@ app.get("/leaderboard/prev", async (req, res) => {
     if (top10.length >= 2) [top10[0], top10[1]] = [top10[1], top10[0]]; // 🟢 SWAP top 2
 
     const processed = top10.map(entry => ({
-      username: maskUsername(entry.username),
+      username: (entry.username),
       wagered: Math.round(parseFloat(entry.wagered_amount)),
       weightedWager: Math.round(parseFloat(entry.wagered_amount)),
     }));
