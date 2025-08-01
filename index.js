@@ -16,11 +16,6 @@ app.use((req, res, next) => {
   next();
 });
 
-function maskUsername(username) {
-  if (username.length <= 4) return username;
-  return username.slice(0, 2) + "***" + username.slice(-2);
-}
-
 function getDynamicApiUrl() {
   const now = new Date();
   const year = now.getUTCFullYear();
