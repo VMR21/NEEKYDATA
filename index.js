@@ -3,8 +3,8 @@ import fetch from "node-fetch";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const SELF_URL = "https://neekydata.onrender.com/leaderboard/top14";
-const API_KEY = "AFALdcCpY2PHOg7nHp4urv9BgsD3g7IU";
+const SELF_URL = "https://kcazzydata.onrender.com/leaderboard/top14";
+const API_KEY = "9emj7LErCZydUlTRZpHCuiWdn64atsNF";
 
 let cachedData = [];
 
@@ -15,6 +15,11 @@ app.use((req, res, next) => {
   res.header("Access-Control-Allow-Headers", "Content-Type");
   next();
 });
+
+function maskUsername(username) {
+  if (username.length <= 4) return username;
+  return username.slice(0, 2) + "***" + username.slice(-2);
+}
 
 function getDynamicApiUrl() {
   const now = new Date();
@@ -44,7 +49,7 @@ async function fetchAndCacheData() {
     if (top10.length >= 2) [top10[0], top10[1]] = [top10[1], top10[0]];
 
     cachedData = top10.map(entry => ({
-      username: (entry.username),
+      username: maskUsername(entry.username),
       wagered: Math.round(parseFloat(entry.wagered_amount)),
       weightedWager: Math.round(parseFloat(entry.wagered_amount)),
     }));
@@ -84,7 +89,7 @@ app.get("/leaderboard/prev", async (req, res) => {
     if (top10.length >= 2) [top10[0], top10[1]] = [top10[1], top10[0]]; // 🟢 SWAP top 2
 
     const processed = top10.map(entry => ({
-      username: (entry.username),
+      username: maskUsername(entry.username),
       wagered: Math.round(parseFloat(entry.wagered_amount)),
       weightedWager: Math.round(parseFloat(entry.wagered_amount)),
     }));
